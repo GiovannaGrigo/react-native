@@ -4,7 +4,6 @@ import { Text, SafeAreaView, StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
 
 // or any files within the Snack
-import AssetExample from './components/AssetExample';
 
 export default function App() {
   return (
@@ -13,7 +12,6 @@ export default function App() {
         Change code in the editor and watch it change on your phone! Save to get a shareable url.
       </Text>
       <Card>
-        <AssetExample />
       </Card>
     </SafeAreaView>
   );
