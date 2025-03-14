@@ -1,7 +1,14 @@
 import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native'
 import commonStyles from '../commonStyles'
 
+import moment from 'moment-timezone'
+import 'moment/locale/pt-br'
+
 export default props => {
+
+    const date = props.doneAt ? props.doneAt : props.estimateAt
+    const formattedDate = moment(date).tz('America/Sao_Paulo').locale('pt-br').format('ddd, D [de] MMMM');
+
     return(
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={() => console.log('oi')}>
@@ -10,8 +17,8 @@ export default props => {
                 </View>
             </TouchableWithoutFeedback>
             <View>
-                <Text style={styles.desc}>Elaborar o MER do projeto do TCC</Text>
-                <Text style={styles.date}>11/03/2025</Text>
+                <Text style={styles.desc}>{props.desc}</Text>
+                <Text style={styles.date}>{formattedDate}</Text>
             </View>
         </View>
     )

@@ -12,13 +12,82 @@ export default function TaskList(){
 
     const tasks = [
         {
-            
+            id: Math.random(),
+            desc: 'Elaborar o MER do TCC',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Ajustar o FIGMA',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(),
+            desc: 'Desenvolver o Backend do sistema',
+            estimateAt: new Date(),
+            doneAt: new Date()
         }
     ]
 
-    const userTimeZone = moment.tz.guess(); // Detecta o fuso horario do dispositivo
-    console.log(userTimeZone)
-    const today = moment().tz('America/Sao_Paulo').locale('pt-br').format('ddd, D [de] MMMM')
+    // const userTimeZone = moment.tz.guess(); // Detecta o fuso horario do dispositivo
+    // console.log(userTimeZone)
+    const today = moment().tz('America/Sao_Paulo').locale('pt-br').format('ddd, D [de] MMMM');
     // const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
 
     return(
@@ -40,7 +109,7 @@ export default function TaskList(){
             <View style={styles.taskList}>
                 <FlatList 
                     data={tasks}
-                    keyExtractor={item => `${item.id}`}
+                    keyExtractor={item => `${item.id}`}  // "for" que percorre toda a lista e estabelece o valor pra cada item
                     renderItem={({item}) => <Task {...item} />}
                 />
             </View>
