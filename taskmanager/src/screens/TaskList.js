@@ -21,13 +21,13 @@ export default function TaskList(){
             id: Math.random(),
             desc: 'Ajustar o FIGMA',
             estimateAt: new Date(),
-            doneAt: new Date()
+            doneAt: null
         },
         {
             id: Math.random(),
             desc: 'Desenvolver o Backend do sistema',
             estimateAt: new Date(),
-            doneAt: new Date()
+            doneAt: null
         },
         {
             id: Math.random(),
