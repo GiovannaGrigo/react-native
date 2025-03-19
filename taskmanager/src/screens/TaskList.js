@@ -90,6 +90,17 @@ export default function TaskList(){
     const today = moment().tz('America/Sao_Paulo').locale('pt-br').format('ddd, D [de] MMMM');
     // const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
 
+    toggleTask = taskId => {
+        const taskList = [...tasks]
+        TaskList.forEach(task => {
+            if (task.id === taskId){
+                task.doneAt = task.doneAt ? null : new Date()
+            }
+        });
+
+        tasks = taskList
+    }
+
     return(
         <View style={styles.container}>
             
