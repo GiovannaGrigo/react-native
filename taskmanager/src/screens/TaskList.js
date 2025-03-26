@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, FlatList } from "react-native"
 
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -33,11 +33,17 @@ const taskDB = [
 export default function TaskList() {
 
     const [tasks, setTasks] = useState([...taskDB])
+    const [showDoneTasks, setShowDoneTasks] = useState(true);
+    const [visibleTasks, setVisibleTasks] = useState([...tasks]);
+    const today = moment().tz('America/Sao_Paulo').locale('pt-br').format('ddd, D [de] MMMM');
 
     // const userTimeZone = moment.tz.guess(); // Detecta o fuso horario do dispositivo
     // console.log(userTimeZone)
-    const today = moment().tz('America/Sao_Paulo').locale('pt-br').format('ddd, D [de] MMMM');
     // const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
+
+    useEffect(() => {
+        filterTasks()
+    }, [showDoneTasks])
 
     const toggleTask = taskId => {
         const taskList = [...tasks]
@@ -46,17 +52,31 @@ export default function TaskList() {
                 task.doneAt = task.doneAt ? null : new Date()
             }
         });
-
         setTasks(taskList)
+        filterTasks()
+    }
+
+    const toggleFilter = () => {
+        setShowDoneTasks(!showDoneTasks)
+    }
+
+    const filterTasks = () => {
+        let visibleTasks = null
+        if (showDoneTasks) {
+            visibleTasks = [...tasks]
+        } else {
+            const pending = task => task.doneAt === null
+            visibleTasks = tasks.filter(pending)
+        }
+        setVisibleTasks(visibleTasks)
     }
 
     return (
         <View style={styles.container}>
-
             <ImageBackground source={todayImage} style={styles.background}>
                 <View style={styles.iconBar}>
-                    <TouchableOpacity onPress={() => console.warn('oi')}>
-                        <Icon name="eye" size={20} color={'#fff'} />
+                    <TouchableOpacity onPress={toggleFilter}>
+                        <Icon name={showDoneTasks ? 'eye' : 'eye-slash'} size={20} color={'#fff'} />
                     </TouchableOpacity>
                 </View>
 
@@ -68,7 +88,7 @@ export default function TaskList() {
 
             <View style={styles.taskList}>
                 <FlatList
-                    data={tasks}
+                    data={visibleTasks}
                     keyExtractor={item => `${item.id}`}  // "for" que percorre toda a lista e estabelece o valor pra cada item
                     renderItem={({ item }) => <Task {...item} onToggleTask={toggleTask} />}
                 />
