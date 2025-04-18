@@ -8,6 +8,7 @@ import 'moment/locale/pt-br'
 
 import todayImage from '../../assets/imgs/today.jpg'
 import Task from "../components/Task"
+import AddTask from "./AddTask"
 
 const taskDB = [
     {
@@ -35,6 +36,8 @@ export default function TaskList() {
     const [tasks, setTasks] = useState([...taskDB])
     const [showDoneTasks, setShowDoneTasks] = useState(true);
     const [visibleTasks, setVisibleTasks] = useState([...tasks]);
+    const [showAddTask, setShowAddTask] = useState(false);
+
     const today = moment().tz('America/Sao_Paulo').locale('pt-br').format('ddd, D [de] MMMM');
 
     // const userTimeZone = moment.tz.guess(); // Detecta o fuso horario do dispositivo
@@ -73,6 +76,8 @@ export default function TaskList() {
 
     return (
         <View style={styles.container}>
+            <AddTask isVisible={showAddTask} onCancel={() => setShowAddTask(false)}/>
+
             <ImageBackground source={todayImage} style={styles.background}>
                 <View style={styles.iconBar}>
                     <TouchableOpacity onPress={toggleFilter}>
@@ -97,7 +102,7 @@ export default function TaskList() {
             <TouchableOpacity
                 style={styles.addButton}
                 activeOpacity={0.7}
-                onPress={() => console.warn('+')}
+                onPress={() => setShowAddTask(true)}
             >
                 <Icon name="plus" size={20} color={'#fff'} />
 
