@@ -32,7 +32,6 @@ const taskDB = [
 ]
 
 export default function TaskList() {
-
     const [tasks, setTasks] = useState([...taskDB])
     const [showDoneTasks, setShowDoneTasks] = useState(true);
     const [visibleTasks, setVisibleTasks] = useState([...tasks]);

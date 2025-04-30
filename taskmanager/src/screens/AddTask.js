@@ -1,9 +1,40 @@
 import { useState } from "react";
-import { View, StyleSheet, Modal, TouchableWithoutFeedback, TouchableOpacity, Text, TextInput } from "react-native";
+import { View, StyleSheet, Modal, TouchableWithoutFeedback, TouchableOpacity, Text, TextInput, Platform } from "react-native";
 import commonStyles from "../commonStyles";
+
+import moment from "moment";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function AddTask(props) {
     const [desc, setDesc] = useState("")
+    const [date, setDate] = useState(new Date())
+    const [showDatePicker, setShowDatePicker] = useState(false)
+    const getDatePicker = () => {
+        let datePicker =
+            <DateTimePicker value={date}
+                onChange={(_, date) => {
+                    setDate(date)
+                    setShowDatePicker(false)
+                }} 
+                mode='date'
+            />
+        const dateString = moment(date).format('ddd, D [de] MMMM [de] YYYY');
+
+        if(Platform.OS === 'android') {
+            datePicker = (
+                <View>
+                    <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                        <Text style={styles.date}>
+                            {dateString}
+                        </Text>
+                    </TouchableOpacity>
+                    {showDatePicker && datePicker}
+                </View>
+            )
+        }
+        return datePicker
+    }
+
     return (
         <Modal transparent={true} visible={props.isVisible} onRequestClose={props.onCancel} animationType="slide">
             <TouchableWithoutFeedback onPress={props.onCancel}>
@@ -17,6 +48,8 @@ export default function AddTask(props) {
                     onChangeText={setDesc}
                     value={desc}
                 />
+
+                {this.getDatePicker()}
                 <View style={styles.buttons}>
                     <TouchableOpacity onPress={props.onCancel}>
                         <Text style={styles.button}>Cancelar</Text>
@@ -43,7 +76,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         flex: 1,
     },
-    header:{
+    header: {
         backgroundColor: commonStyles.colors.today,
         color: commonStyles.colors.secondary,
         textAlign: 'center',
