@@ -91,7 +91,8 @@ export default function TaskList() {
 
     return (
         <View style={styles.container}>
-            <AddTask isVisible={showAddTask} onCancel={() => setShowAddTask(false)}/>
+            <AddTask isVisible={showAddTask} onCancel={() => setShowAddTask(false)}
+                onSave={addTask}/>
 
             <ImageBackground source={todayImage} style={styles.background}>
                 <View style={styles.iconBar}>
