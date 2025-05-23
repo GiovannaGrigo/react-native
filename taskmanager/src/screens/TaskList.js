@@ -34,7 +34,7 @@ const taskDB = [
 ]
 
 export default function TaskList() {
-    const [tasks, setTasks] = useState([...taskDB])
+    const [tasks, setTasks] = useState([])
     const [showDoneTasks, setShowDoneTasks] = useState(true);
     const [visibleTasks, setVisibleTasks] = useState([...tasks]);
     const [showAddTask, setShowAddTask] = useState(false);
@@ -45,18 +45,26 @@ export default function TaskList() {
     // console.log(userTimeZone)
     // const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
 
-    useEffect(() => {
-        filterTasks()
-    }, [showDoneTasks, tasks])
+    const [contador, setContador] = useState(0)
 
     useEffect(() => {
-        async function getTasks() {
-            const tasksString = await AsyncStorage.getItem('tasksState')
-            const tasks = JSON.parse(tasksString) || taskDB
-            setTasks(tasks)
+        setContador(contador + 1)
+        if(contador == 0){
+            getTasks()
         }
-        getTasks()
-    })
+
+        filterTasks()
+    }, [showDoneTasks])
+
+    useEffect(() => {
+        filterTasks()
+    }, [tasks])
+
+    async function getTasks() {
+        const tasksString = await AsyncStorage.getItem('tasksState')
+        const tasks = tasksString && JSON.parse(tasksString) || taskDB
+        setTasks(tasks)
+    }
 
     const toggleTask = taskId => {
         const taskList = [...tasks]
@@ -86,7 +94,7 @@ export default function TaskList() {
     }
 
     const addTask = newTask => {
-        if(!newTask.desc || !newTask.desc.trim()){
+        if (!newTask.desc || !newTask.desc.trim()) {
             Alert.alert('Dados Inválidos', 'Descrição não informada!')
         }
 
@@ -99,18 +107,21 @@ export default function TaskList() {
         })
         setTasks(tempTasks)
         setShowAddTask(false)
+
+        AsyncStorage.setItem('tasksState', JSON.stringify(tempTasks))
     }
 
     const deleteTask = id => {
         const tempTasks = tasks.filter(task => task.id !== id)
-        
         setTasks(tempTasks)
+
+        AsyncStorage.setItem('tasksState', JSON.stringify(tempTasks))
     }
 
     return (
         <View style={styles.container}>
             <AddTask isVisible={showAddTask} onCancel={() => setShowAddTask(false)}
-                onSave={addTask}/>
+                onSave={addTask} />
 
             <ImageBackground source={todayImage} style={styles.background}>
                 <View style={styles.iconBar}>
